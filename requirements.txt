@@ -1,0 +1,8 @@
+pandas
+duckdb
+requests
+scipy
+plotly
+streamlit
+jupyter
+pytest
