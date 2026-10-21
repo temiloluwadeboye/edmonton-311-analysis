@@ -19,5 +19,26 @@
 --   avg(CASE WHEN days_to_close = 0 THEN 1 ELSE 0 END) * 100   share that are 0 days
 --   HAVING count(*) >= 1000               like WHERE, but filters GROUPS after counting
 --
+-- Note: "days to close" is days until the ticket was CLOSED, which is not always days
+-- until the problem was FIXED (e.g. 'Deferred-Future Work Planned' closes in ~1 day).
+--
 -- Run: python -m src.run_sql sql/03_response_times.sql
 
+SELECT
+    category,
+    COUNT(*) AS closed_requests,
+    ROUND(AVG(days_to_close), 1) AS mean_days,
+    MEDIAN(days_to_close) AS median_days,
+    QUANTILE_CONT(days_to_close, 0.9) AS p90_days,
+    ROUND(AVG(CASE WHEN days_to_close = 0 THEN 1 ELSE 0 END) * 100, 1) AS pct_same_day
+FROM requests
+WHERE year >= 2022
+  AND status = 'Closed'
+  AND NOT closed_without_date
+  -- Duplicates are closed almost instantly and aren't separate requests, so they would
+  -- make busy categories look faster. IS NULL keeps the many rows with no detail
+  -- (NULL NOT LIKE '...' is "unknown", which WHERE would silently drop).
+  AND (status_detail IS NULL OR status_detail NOT LIKE 'Duplicate%')
+GROUP BY category
+HAVING COUNT(*) >= 1000
+ORDER BY median_days DESC, p90_days DESC;  -- second key breaks ties in the median
