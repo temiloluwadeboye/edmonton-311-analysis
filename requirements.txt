@@ -6,3 +6,4 @@ plotly
 streamlit
 jupyter
 pytest
+pyarrow
