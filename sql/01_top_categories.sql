@@ -7,6 +7,14 @@
 --
 -- Concepts: WHERE, GROUP BY, COUNT(*), ORDER BY ... DESC, LIMIT, and a percentage
 -- using a window function: count(*) * 100.0 / sum(count(*)) OVER ()
---
+-- 
 -- Run: python -m src.run_sql sql/01_top_categories.sql
-
+SELECT
+    category,
+    COUNT(*) AS num_requests,
+    round(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 1) AS percent_requests
+FROM requests
+WHERE year >= 2022
+GROUP BY category
+ORDER BY num_requests DESC
+LIMIT 10;
