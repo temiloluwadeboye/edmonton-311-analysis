@@ -19,3 +19,16 @@
 --
 -- Run: python -m src.run_sql sql/02_seasonal_patterns.sql
 
+SELECT
+    month,
+    -- * 1.0 forces decimal division (PostgreSQL would otherwise round down 7/2 to 3);
+    -- ::INTEGER turns the rounded result into a whole number
+    ROUND(COUNT(*) * 1.0 / COUNT(DISTINCT year))::INTEGER AS avg_requests,
+    ROUND(COUNT(*) FILTER (WHERE category = 'Potholes') * 1.0 / COUNT(DISTINCT year))::INTEGER AS avg_potholes,
+    ROUND(COUNT(*) FILTER (WHERE category = 'Maintenance - Snow & Ice') * 1.0 / COUNT(DISTINCT year))::INTEGER AS avg_snow_ice,
+    ROUND(COUNT(*) FILTER (WHERE category = 'Encampments') * 1.0 / COUNT(DISTINCT year))::INTEGER AS avg_encampments,
+    ROUND(COUNT(*) FILTER (WHERE category = 'Litter') * 1.0 / COUNT(DISTINCT year))::INTEGER AS avg_litter
+FROM requests
+WHERE year >= 2022 AND NOT partial_year
+GROUP BY month
+ORDER BY month;
