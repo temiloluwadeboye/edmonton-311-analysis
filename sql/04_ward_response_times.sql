@@ -23,3 +23,35 @@
 --
 -- Run: python -m src.run_sql sql/04_ward_response_times.sql
 
+-- Step 1: keep only the rows we want to compare (closed pothole requests, current wards)
+WITH pothole_requests AS (
+    SELECT ward, days_to_close
+    FROM requests
+    WHERE year >= 2022
+      AND status = 'Closed'
+      AND NOT closed_without_date
+      AND (status_detail IS NULL OR status_detail NOT LIKE 'Duplicate%')
+      AND ward_system = 'new'
+      AND category = 'Potholes'
+),
+
+-- Step 2: summarise each ward
+ward_summary AS (
+    SELECT
+        ward,
+        COUNT(*) AS closed_requests,
+        MEDIAN(days_to_close) AS median_days,
+        QUANTILE_CONT(days_to_close, 0.9) AS p90_days
+    FROM pothole_requests
+    GROUP BY ward
+)
+
+-- Step 3: rank the wards from fastest to slowest median
+SELECT
+    RANK() OVER (ORDER BY median_days, p90_days) AS speed_rank,
+    ward,
+    closed_requests,
+    median_days,
+    p90_days
+FROM ward_summary
+ORDER BY speed_rank;
