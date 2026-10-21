@@ -34,33 +34,60 @@ COLUMNS = [
 ]
 
 
-def fetch_page(offset):
+def fetch_page(offset, retries=3):
     """Request one page of up to PAGE_SIZE rows starting at `offset`; return a list of dicts.
 
-    Hint: requests.get(API_URL, params={...}, timeout=120) with these params:
-        "$select": the column names joined by commas
-        "$limit":  PAGE_SIZE
-        "$offset": offset
-        "$order":  ":id"      (keeps the row order stable between pages)
-    Then response.raise_for_status() and return response.json().
+    If the server is slow or briefly unavailable, wait and try again (up to `retries` times).
     """
-    pass
+    params = {
+        "$select": ",".join(COLUMNS),
+        "$limit": PAGE_SIZE,
+        "$offset": offset,   # how many rows to skip before this page starts
+        "$order": ":id",     # same order every time, so pages never overlap or leave gaps
+    }
+    for attempt in range(1, retries + 1):
+        try:
+            response = requests.get(API_URL, params=params, timeout=120)
+            response.raise_for_status()   # turn an HTTP error (e.g. 500) into a Python error
+            return response.json()
+        except requests.RequestException as error:
+            if attempt == retries:
+                raise
+            wait = 5 * attempt
+            print(f"  request failed ({error}); retrying in {wait}s...")
+            time.sleep(wait)
 
 
 def save_page(rows, page_number):
     """Write one page to data/raw/page_000.json (3-digit page number). Return the path."""
-    pass
+    path = RAW_DIR / f"page_{page_number:03d}.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(rows, f)
+    return path
 
 
 def main():
-    # Step 1: make sure RAW_DIR exists
+    # Step 1: make sure RAW_DIR exists, and clear out pages from any earlier run
+    RAW_DIR.mkdir(parents=True, exist_ok=True)
+    for old_page in RAW_DIR.glob("page_*.json"):
+        old_page.unlink()
 
-    # Step 2: loop: fetch a page, stop if it's empty, otherwise save it,
-    #         print progress, and move the offset forward by PAGE_SIZE
-    #         (a short time.sleep(1) between pages is polite to the City's server)
+    # Step 2: keep asking for the next page until one comes back empty
+    offset, page_number, total = 0, 0, 0
+    while True:
+        rows = fetch_page(offset)
+        if not rows:
+            break
+        path = save_page(rows, page_number)
+        total += len(rows)
+        print(f"page {page_number:>3}: {len(rows):>6,} rows   ({total:>9,} total)  -> {path}")
 
-    # Step 3: print the total number of rows downloaded
-    pass
+        offset += PAGE_SIZE
+        page_number += 1
+        time.sleep(1)   # be polite to the City's server
+
+    # Step 3: summary
+    print(f"\nDone: {total:,} rows in {page_number} pages.")
 
 
 if __name__ == "__main__":
