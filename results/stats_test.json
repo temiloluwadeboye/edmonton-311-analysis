@@ -1,0 +1,24 @@
+{
+  "tickets": 33133,
+  "wards": 12,
+  "alpha": 0.05,
+  "kruskal_wallis": {
+    "H": 1024.35,
+    "p_value": 1.1003961013473313e-212,
+    "significant": true
+  },
+  "epsilon_squared": 0.0309,
+  "effect_size": "small",
+  "fastest_ward": {
+    "ward": "pihêsiwin",
+    "median_days": 2.0
+  },
+  "slowest_ward": {
+    "ward": "Métis",
+    "median_days": 7.0
+  },
+  "mann_whitney": {
+    "p_value": 4.37849047231578e-111,
+    "prob_fastest_closes_first": 0.672
+  }
+}
