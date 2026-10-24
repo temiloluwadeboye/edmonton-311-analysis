@@ -1,0 +1,35 @@
+-- Question 5: Do requests made through the mobile app get closed faster than phone calls?
+--
+-- Goal: compare how fast requests are closed depending on HOW they were reported,
+-- within the same kinds of request. One row per (category, channel) pair, for three
+-- common categories: 'Potholes', 'Litter', 'Maintenance - Snow & Ice'. Show:
+--   * category
+--   * channel          - the reporting channel, grouped (see below)
+--   * closed_requests
+--   * median_days and p90_days
+-- Sort by category, then by median_days (fastest channel first within each category).
+--
+-- Same filters as questions 3 and 4 (since 2022, closed, not closed_without_date, no
+-- duplicates). Since 2022 the sources are:
+--   Mobile App 272,334 | Phone Call 166,326 | Mobile App Generic 98,150 |
+--   ESRI MAP 34,143 | Email 1,176 | Web Forms 1
+-- Group them into three channels:
+--   'Mobile App' and 'Mobile App Generic'  -> 'App'
+--   'Phone Call'                           -> 'Phone'
+--   everything else (map, email, web form) -> 'Online / other'
+--
+-- Why within categories again? Same confounder as question 4: if app users mostly report
+-- fast categories (like parking), the app would look faster even if it isn't.
+--
+-- New concepts:
+--   CASE WHEN ... THEN ... ELSE ... END   build a new value row by row, e.g.
+--       CASE WHEN source IN ('Mobile App', 'Mobile App Generic') THEN 'App'
+--            WHEN source = 'Phone Call' THEN 'Phone'
+--            ELSE 'Online / other' END AS channel
+--   IN ('a', 'b')                          shorthand for  = 'a' OR = 'b'
+--   GROUP BY category, channel             one group per COMBINATION of the two
+--   Tip: put the CASE in a CTE first (like question 4), then GROUP BY channel outside it;
+--   that way you don't have to repeat the whole CASE in the GROUP BY.
+--
+-- Run: python -m src.run_sql sql/05_source_response_times.sql
+
