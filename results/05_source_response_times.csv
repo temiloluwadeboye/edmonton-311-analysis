@@ -1,0 +1,9 @@
+category,channel,closed_requests,median_days,p90_days
+Litter,App,29439,2.0,24.0
+Litter,Phone,13221,2.0,26.0
+Litter,Online / other,110,4.5,38.0
+Maintenance - Snow & Ice,Phone,42197,1.0,9.0
+Maintenance - Snow & Ice,App,39466,2.0,8.0
+Maintenance - Snow & Ice,Online / other,253,2.0,14.0
+Potholes,App,26642,4.0,53.0
+Potholes,Phone,6560,7.0,85.0

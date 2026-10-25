@@ -33,3 +33,32 @@
 --
 -- Run: python -m src.run_sql sql/05_source_response_times.sql
 
+-- Step 1: pick the rows and label each one with its reporting channel
+WITH requests_by_channel AS (
+    SELECT
+        category,
+        CASE
+            WHEN source IN ('Mobile App', 'Mobile App Generic') THEN 'App'
+            WHEN source = 'Phone Call'                          THEN 'Phone'
+            ELSE 'Online / other'
+        END AS channel,
+        days_to_close
+    FROM requests
+    WHERE year >= 2022
+      AND status = 'Closed'
+      AND NOT closed_without_date
+      AND (status_detail IS NULL OR status_detail NOT LIKE 'Duplicate%')
+      AND category IN ('Potholes', 'Litter', 'Maintenance - Snow & Ice')
+)
+
+-- Step 2: one row per (category, channel), with the same measures as questions 3 and 4
+SELECT
+    category,
+    channel,
+    COUNT(*) AS closed_requests,
+    MEDIAN(days_to_close) AS median_days,
+    QUANTILE_CONT(days_to_close, 0.9) AS p90_days
+FROM requests_by_channel
+GROUP BY category, channel
+HAVING COUNT(*) >= 100          -- leave out groups too small to be reliable
+ORDER BY category, median_days, p90_days;
