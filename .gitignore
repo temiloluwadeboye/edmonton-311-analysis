@@ -20,3 +20,6 @@ Thumbs.db
 
 # Secrets
 .env
+
+# Tableau / Power BI export (rebuild with python -m src.build_dashboard_data)
+app/data/*.csv

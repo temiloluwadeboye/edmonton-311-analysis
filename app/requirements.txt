@@ -1,0 +1,8 @@
+# Used by Streamlit Community Cloud for the online dashboard (it looks for this file next to the app).
+streamlit==1.66.0
+pandas==3.0.6
+numpy==2.5.4
+scipy==1.18.1
+plotly==7.1.0
+pyarrow==26.0.0
+duckdb==1.5.6
