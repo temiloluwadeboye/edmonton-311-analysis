@@ -140,6 +140,7 @@ python -m src.run_sql sql/04_ward_response_times.sql
 python -m src.stats_test
 python -m src.build_dashboard_data
 streamlit run app/dashboard.py
+python -m pytest                # 9 tests for the cleaning step
 ```
 
 `build_dashboard_data` also writes `app/data/edmonton_311_summary.csv`, a flat summary for Tableau or Power BI.
