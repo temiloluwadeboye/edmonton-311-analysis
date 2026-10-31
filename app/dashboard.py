@@ -6,6 +6,7 @@ Run from the project root:
 Reads the small summary files in app/data/ (built by src.build_dashboard_data).
 """
 
+import json
 import statistics
 import sys
 from pathlib import Path
@@ -55,6 +56,13 @@ st.write(
     "City of Edmonton 311 service requests (potholes, snow, litter, parking and more), "
     "analysed with an ETL pipeline, SQL and statistical tests. Figures cover 2022 to today unless noted."
 )
+
+# Written by src.check_refresh after each successful weekly refresh
+refresh_path = DATA_DIR / "last_refresh.json"
+if refresh_path.exists():
+    refreshed_on = json.loads(refresh_path.read_text(encoding="utf-8")).get("refreshed_on")
+    if refreshed_on:
+        st.caption(f"Data last updated: {refreshed_on} (refreshed automatically every week)")
 
 c1, c2, c3 = st.columns(3)
 c1.metric("Requests since 2022", f"{int(since_2022['requests'].sum()):,}")
