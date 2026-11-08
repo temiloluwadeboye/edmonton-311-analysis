@@ -23,3 +23,8 @@ Thumbs.db
 
 # Tableau / Power BI export (rebuild with python -m src.build_dashboard_data)
 app/data/*.csv
+
+# Design-tool scratch files (review screenshots, decision mock-ups, question logs)
+.impeccable/review/
+.impeccable/mocks/
+.impeccable/questions/

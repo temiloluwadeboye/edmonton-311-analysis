@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-08T00:00:00Z",
+  "title": "Design System: Edmonton 311",
+  "extensions": {
+    "colorMeta": {
+      "route-blue": { "role": "primary", "displayName": "Route Blue", "canonical": "#0057A8", "tonalRamp": ["#002343","#003465","#004686","#0057A8","#4081BE","#80ABD4","#BFD5E9","#E6EEF6"] },
+      "express-green": { "role": "secondary", "displayName": "Express Green", "canonical": "#00A651", "tonalRamp": ["#004220","#006431","#008541","#00A651","#40BC7D","#80D3A8","#BFE9D4","#E6F6EE"] },
+      "terminus-red": { "role": "secondary", "displayName": "Terminus Red", "canonical": "#D52B1E", "tonalRamp": ["#55110C","#801A12","#AA2218","#D52B1E","#E06056","#EA958F","#F5CAC7","#FBEAE9"] },
+      "signal-amber": { "role": "tertiary", "displayName": "Signal Amber", "canonical": "#F2A900", "tonalRamp": ["#614400","#916500","#C28700","#F2A900","#F5BF40","#F9D480","#FCEABF","#FEF6E6"] },
+      "line-violet": { "role": "tertiary", "displayName": "Line Violet", "canonical": "#6E3F98", "tonalRamp": ["#2C193D","#42265B","#58327A","#6E3F98","#926FB2","#B79FCC","#DBCFE5","#F1ECF5"] },
+      "line-slate": { "role": "tertiary", "displayName": "Line Slate", "canonical": "#5B6770", "tonalRamp": ["#24292D","#373E43","#49525A","#5B6770","#848D94","#ADB3B8","#D6D9DB","#EFF0F1"] },
+      "header-ink": { "role": "neutral", "displayName": "Header Ink", "canonical": "#1B1F24", "tonalRamp": ["#0B0C0E","#101316","#16191D","#1B1F24","#54575B","#8D8F92","#C6C7C8","#E8E9E9"] },
+      "muted-ink": { "role": "neutral", "displayName": "Muted Ink", "canonical": "#4A525C", "tonalRamp": ["#1E2125","#2C3137","#3B424A","#4A525C","#777D85","#A5A9AE","#D2D4D6","#EDEEEF"] },
+      "header-muted": { "role": "neutral", "displayName": "Header Muted", "canonical": "#C9CFD6", "tonalRamp": ["#505356","#797C80","#A1A6AB","#C9CFD6","#D7DBE0","#E4E7EB","#F2F3F5","#FAFAFB"] },
+      "hairline": { "role": "neutral", "displayName": "Hairline", "canonical": "#D9DDE2", "tonalRamp": ["#57585A","#828588","#AEB1B5","#D9DDE2","#E3E6E9","#ECEEF1","#F6F7F8","#FBFCFC"] },
+      "platform-panel": { "role": "neutral", "displayName": "Platform Panel", "canonical": "#F3F5F7", "tonalRamp": ["#616263","#929394","#C2C4C6","#F3F5F7","#F6F8F9","#F9FAFB","#FCFDFD","#FEFEFE"] },
+      "ground-white": { "role": "neutral", "displayName": "Ground White", "canonical": "#FFFFFF", "tonalRamp": ["#666666","#999999","#CCCCCC","#E6E6E6","#F2F2F2","#F7F7F7","#FCFCFC","#FFFFFF"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "The page question; 1.7rem under 480px, max 42ch, balanced." },
+      "headline": { "displayName": "Headline Number", "purpose": "The three headline numbers, tabular numerals." },
+      "title": { "displayName": "Section Title", "purpose": "Section headings inside tabs." },
+      "verdict": { "displayName": "Verdict", "purpose": "Plain-language statistical result, max 46ch, bold runs at 800." },
+      "body": { "displayName": "Lede", "purpose": "Intro paragraph, muted, max 68ch." },
+      "note": { "displayName": "Note", "purpose": "Explanations and caveats, muted, max 68ch; small notes never below 0.82rem." },
+      "label": { "displayName": "Label", "purpose": "Stat labels and tab labels (tabs 1rem, 800 when selected)." },
+      "station-name": { "displayName": "Station Name", "purpose": "Ward or channel names on the transit line, one aligned signage column." },
+      "station-stop": { "displayName": "Stop Label", "purpose": "Day labels left of the line; red at the slowest terminus." }
+    },
+    "shadows": [
+      { "name": "bullet-ring", "value": "0 0 0 4px #0057A8", "purpose": "Spread ring that draws the header's route-bullet mark. A stroke, not elevation; the system has no drop shadows." }
+    ],
+    "motion": [
+      { "name": "station-slide", "value": "520ms cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Names and stations slide from their previous stop (translateY(var(--dy))) on category change. Disabled under prefers-reduced-motion." },
+      { "name": "bullet-fill", "value": "180ms ease-out", "purpose": "Tab route-bullet fills when selected." }
+    ],
+    "breakpoints": [
+      { "name": "phone", "value": "480px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Header Bar",
+      "kind": "nav",
+      "refersTo": "header-bar",
+      "description": "Full-bleed near-black band with the route-bullet wordmark and the data-last-updated line.",
+      "html": "<div class=\"ds-header\"><div class=\"ds-header__name\">Edmonton 311</div><div class=\"ds-header__updated\">Data last updated 2026-11-02, refreshed automatically every week</div></div>",
+      "css": ".ds-header { background: #1B1F24; color: #fff; display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 24px; padding: 14px 24px 12px; font-family: Overpass, sans-serif; } .ds-header__name { font: 800 1.35rem/1.1 Overpass, sans-serif; letter-spacing: 0.01em; } .ds-header__name::before { content: \"\"; display: inline-block; width: 0.8em; height: 0.8em; margin-right: 0.45em; border-radius: 50%; background: #fff; box-shadow: 0 0 0 4px #0057A8; vertical-align: -0.06em; } .ds-header__updated { font: 500 0.9rem/1.3 Overpass, sans-serif; color: #C9CFD6; }"
+    },
+    {
+      "name": "Route-Bullet Tabs",
+      "kind": "nav",
+      "refersTo": "tab",
+      "description": "Section tabs led by a blue ring that fills when selected; one scrolling row on phones.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Ward response times</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">What gets reported</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Map</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">App vs phone</button></div>",
+      "css": ".ds-tabs { display: flex; gap: 30px; border-bottom: 1px solid #D9DDE2; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; } .ds-tab { flex: none; white-space: nowrap; display: flex; align-items: center; background: none; border: 0; border-bottom: 4px solid transparent; padding: 10px 2px 8px; font: 600 1rem/1.2 Overpass, sans-serif; color: #4A525C; cursor: pointer; } .ds-tab::before { content: \"\"; flex: none; width: 16px; height: 16px; box-sizing: border-box; margin-right: 10px; border-radius: 50%; border: 4px solid #0057A8; background: #fff; transition: background-color 180ms ease-out; } .ds-tab:hover { color: #1B1F24; } .ds-tab[aria-selected=\"true\"] { color: #1B1F24; font-weight: 800; border-bottom-color: #1B1F24; } .ds-tab[aria-selected=\"true\"]::before { background: #0057A8; } .ds-tab:focus-visible { outline: 3px solid #0057A8; outline-offset: 2px; }"
+    },
+    {
+      "name": "Headline Number",
+      "kind": "custom",
+      "refersTo": "headline-number",
+      "description": "Unboxed stat: route-bullet label, big tabular value, short muted note.",
+      "html": "<div class=\"ds-stat\"><div class=\"ds-stat__label\"><span class=\"ds-bullet\"></span>Requests since 2013</div><div class=\"ds-stat__value\">1.25M</div><div class=\"ds-stat__note\">Closed service requests, duplicates excluded</div></div>",
+      "css": ".ds-stat { min-width: 200px; font-family: Overpass, sans-serif; } .ds-stat__label { font: 600 0.95rem/1.3 Overpass, sans-serif; color: #4A525C; display: flex; align-items: center; gap: 9px; } .ds-bullet { width: 14px; height: 14px; border-radius: 50%; flex: none; box-sizing: border-box; border: 4px solid #0057A8; background: #fff; } .ds-stat__value { font: 800 2.2rem/1.1 Overpass, sans-serif; color: #1B1F24; font-variant-numeric: tabular-nums; margin: 6px 0 2px 23px; } .ds-stat__note { font: 400 0.85rem/1.35 Overpass, sans-serif; color: #4A525C; margin-left: 23px; max-width: 32ch; }"
+    },
+    {
+      "name": "Transit Line",
+      "kind": "custom",
+      "refersTo": "station",
+      "description": "Signature vertical strip map: one stop per median day, green fastest terminus, red slowest, tied names share an interchange pill.",
+      "html": "<svg class=\"ds-strip\" viewBox=\"0 0 380 150\" width=\"380\" role=\"img\" aria-label=\"Median days to close\"><line class=\"ds-line\" x1=\"92\" y1=\"20\" x2=\"92\" y2=\"130\"/><g class=\"ds-move\"><rect x=\"79\" y=\"7\" width=\"26\" height=\"26\" rx=\"13\" fill=\"#00A651\"/><rect x=\"83.5\" y=\"11.5\" width=\"17\" height=\"17\" rx=\"8.5\" fill=\"#fff\"/></g><text class=\"ds-stop\" x=\"67\" y=\"20\" text-anchor=\"end\" dominant-baseline=\"central\">2 days</text><text class=\"ds-name ds-move\" x=\"133\" y=\"20\" dominant-baseline=\"central\">Ward A</text><g class=\"ds-move\"><rect x=\"79\" y=\"62\" width=\"41\" height=\"26\" rx=\"13\" fill=\"#0057A8\"/><rect x=\"83.5\" y=\"66.5\" width=\"32\" height=\"17\" rx=\"8.5\" fill=\"#fff\"/></g><text class=\"ds-stop\" x=\"67\" y=\"75\" text-anchor=\"end\" dominant-baseline=\"central\">3 days</text><text class=\"ds-name ds-move\" x=\"133\" y=\"66.5\" dominant-baseline=\"central\">Ward B</text><text class=\"ds-name ds-move\" x=\"133\" y=\"83.5\" dominant-baseline=\"central\">Ward C</text><g class=\"ds-move\"><rect x=\"79\" y=\"117\" width=\"26\" height=\"26\" rx=\"13\" fill=\"#D52B1E\"/><rect x=\"83.5\" y=\"121.5\" width=\"17\" height=\"17\" rx=\"8.5\" fill=\"#fff\"/></g><text class=\"ds-stop ds-stop--slow\" x=\"67\" y=\"130\" text-anchor=\"end\" dominant-baseline=\"central\">5 days</text><text class=\"ds-name ds-move\" x=\"133\" y=\"130\" dominant-baseline=\"central\">Ward D</text></svg>",
+      "css": ".ds-strip { display: block; width: 100%; max-width: 380px; height: auto; overflow: visible; } .ds-line { stroke: #0057A8; stroke-width: 10; stroke-linecap: round; } .ds-stop { font: 800 14px Overpass, sans-serif; fill: #1B1F24; } .ds-stop--slow { fill: #D52B1E; } .ds-name { font: 500 15px Overpass, sans-serif; fill: #1B1F24; } .ds-move { animation: ds-slide 520ms cubic-bezier(0.16, 1, 0.3, 1) both; --dy: 24px; } @keyframes ds-slide { from { transform: translateY(var(--dy, 0px)); } to { transform: translateY(0); } } @media (prefers-reduced-motion: reduce) { .ds-move { animation: none; } }"
+    },
+    {
+      "name": "Verdict and Figures",
+      "kind": "card",
+      "refersTo": "headline-number",
+      "description": "Plain-language test result above a two-column, hairline-topped figure grid. Unboxed.",
+      "html": "<div class=\"ds-verdict-block\"><p class=\"ds-verdict\">For <b>potholes</b>, the differences between wards <b>are real but small</b>.</p><div class=\"ds-figures\"><div><div class=\"ds-figure__value\">0.03</div><div class=\"ds-figure__label\">Effect size</div><div class=\"ds-figure__note\">Epsilon squared</div></div><div><div class=\"ds-figure__value\">48,210</div><div class=\"ds-figure__label\">Closed requests</div><div class=\"ds-figure__note\">Since 2022</div></div></div></div>",
+      "css": ".ds-verdict { font: 500 1.15rem/1.5 Overpass, sans-serif; color: #1B1F24; max-width: 46ch; margin: 4px 0 16px; } .ds-verdict b { font-weight: 800; } .ds-figures { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 28px; padding-top: 18px; border-top: 1px solid #D9DDE2; } .ds-figure__value { font: 800 1.6rem/1.1 Overpass, sans-serif; color: #1B1F24; font-variant-numeric: tabular-nums; } .ds-figure__label { font: 700 0.9rem/1.3 Overpass, sans-serif; color: #1B1F24; margin-top: 4px; } .ds-figure__note { font: 400 0.82rem/1.4 Overpass, sans-serif; color: #4A525C; margin-top: 2px; }"
+    },
+    {
+      "name": "Category Select",
+      "kind": "input",
+      "refersTo": "tab",
+      "description": "Streamlit selectbox under the theme: white field, hairline border, 0.75rem radius, blue focus ring.",
+      "html": "<select class=\"ds-select\" aria-label=\"Category\"><option>Potholes</option><option>Snow and ice</option></select>",
+      "css": ".ds-select { font: 400 1rem/1.4 Overpass, sans-serif; color: #1B1F24; background: #fff; border: 1px solid #D9DDE2; border-radius: 0.75rem; padding: 8px 12px; min-width: 240px; } .ds-select:hover { border-color: #4A525C; } .ds-select:focus-visible { outline: 3px solid #0057A8; outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The LRT Strip Map",
+    "overview": "The page reads like the line map above the doors of an Edmonton LRT car: a white ground, a near-black header bar, thick round-capped blue line, white station cores inside coloured rings, and route-bullet markers. The metaphor is functional, not decorative. Response times are stops on a line; ties are interchanges; the fastest and slowest ends are the termini, and only they get their own colours.\n\nDensity is calm and editorial: one finding per block, generous whitespace, notes in muted ink at a readable measure. Everything is set in one self-hosted family, Overpass, whose Highway Gothic lineage carries the signage voice. Charts that are not transit lines (categories, seasonality, map) share the palette and type but not the line metaphor.\n\nThe world rejects the default KPI-card-plus-chart-grid dashboard: no boxed metric cards, no shadowed tiles, no Streamlit chrome (toolbar, decoration stripe and default header are hidden).",
+    "keyCharacteristics": [
+      "Colour is a data role, never decoration.",
+      "One type family, Overpass, with tabular numerals on every figure.",
+      "Round geometry: rings, pills, round line caps, route bullets.",
+      "Flat white ground; hairlines, not shadows, separate content.",
+      "One signature motion: stations slide to their new stop."
+    ],
+    "rules": [
+      { "name": "The Terminus Rule", "body": "Green means fastest and red means slowest, and nothing else. A line with one stop uses blue at both ends. Never use green or red as a category colour.", "section": "colors" },
+      { "name": "The Series Order Rule", "body": "Categorical charts draw from blue, amber, violet, slate, in that order.", "section": "colors" },
+      { "name": "The Blue Bullet Rule", "body": "Every route bullet is Route Blue; bullets mark structure, not data values.", "section": "colors" },
+      { "name": "The One Family Rule", "body": "Overpass everywhere, including Plotly figures (14px, hover labels 13px). No second face.", "section": "typography" },
+      { "name": "The Tabular Figure Rule", "body": "Every displayed number uses `font-variant-numeric: tabular-nums`.", "section": "typography" },
+      { "name": "The Hairline Rule", "body": "Separate with a 1px Hairline rule or whitespace, never a raised surface.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do reserve Express Green for the fastest and Terminus Red for the slowest, including on continuous fast-to-slow scales.",
+      "Do colour chart categories in the order blue, amber, violet, slate.",
+      "Do draw every route bullet in Route Blue: an outline ring for unselected, filled for selected.",
+      "Do set every figure in Overpass with tabular numerals.",
+      "Do keep notes at 0.82rem (about 13px) or larger, including on phones.",
+      "Do honour `prefers-reduced-motion` for the station slide."
+    ],
+    "donts": [
+      "Don't use green or red as a series or category colour.",
+      "Don't put headline numbers or charts in boxed, shadowed KPI cards.",
+      "Don't introduce a second typeface or fall back to a system display face.",
+      "Don't show Streamlit's default toolbar, decoration stripe or header.",
+      "Don't render the transit line with `st.html`; it strips inline SVG."
+    ]
+  }
+}

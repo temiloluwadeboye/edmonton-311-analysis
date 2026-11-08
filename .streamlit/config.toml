@@ -1,5 +1,31 @@
 [browser]
 gatherUsageStats = false
 
+[server]
+# Serves app/static/ (the self-hosted Overpass font) at app/static/...
+enableStaticServing = true
+
+# Edmonton Transit line-map palette: blue is the main series, red marks the slowest, green the fastest.
 [theme]
-primaryColor = "#1F9D55"
+base = "light"
+primaryColor = "#0057A8"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F3F5F7"
+textColor = "#1B1F24"
+linkColor = "#0057A8"
+borderColor = "#D9DDE2"
+showWidgetBorder = true
+baseRadius = "0.75rem"
+buttonRadius = "full"
+font = "Overpass, sans-serif"
+headingFont = "Overpass, sans-serif"
+headingFontWeights = [800, 700, 700]
+baseFontSize = 16
+dataframeHeaderBackgroundColor = "#F3F5F7"
+chartCategoricalColors = ["#0057A8", "#F2A900", "#6E3F98", "#5B6770"]   # never green or red: those mean fastest and slowest
+
+[[theme.fontFaces]]
+family = "Overpass"
+url = "app/static/Overpass-Variable.ttf"
+weight = "100 900"
+style = "normal"
